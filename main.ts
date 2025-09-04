@@ -1,6 +1,4 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
-
-// Remember to rename these classes and interfaces!
+import { Editor, EditorPosition, MarkdownView, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
 
 function getRandomInt(min: number, max: number): number {
   min = Math.ceil(min); // Ensure min is an integer
@@ -16,9 +14,18 @@ export default class RandomLinePlugin extends Plugin {
 			id: 'random-line',
 			name: 'Random line',
 			editorCallback: (editor: Editor, view: MarkdownView) => {
-				console.log("v2");
+				console.log("v5");
 				const line = getRandomInt(0, editor.lastLine());
-				editor.setCursor(line, 0);
+				const start: EditorPosition = {
+				      line: line,
+				      ch: 0
+				};
+				const end: EditorPosition = {
+				      line: line,
+				      ch: editor.getLine(line).length
+				};
+				editor.setSelection(start, end);
+				// editor.setCursor(line, 0);
 			}
 		});
 
