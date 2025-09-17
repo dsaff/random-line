@@ -1,10 +1,28 @@
-import { EditorPosition, MarkdownView, Notice, Plugin } from "obsidian";
+import { Editor, EditorPosition, MarkdownView, Notice, Plugin } from "obsidian";
 
 function getRandomInt(min: number, max: number): number {
 	min = Math.ceil(min); // Ensure min is an integer
 	max = Math.floor(max); // Ensure max is an integer
 	// The maximum is inclusive and the minimum is inclusive
 	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function lines(editor: Editor): string[] {
+	const lineCount = editor.lineCount();
+	const lineArray: string[] = new Array(lineCount);
+	for (let i = 0; i < lineCount; i++) {
+		lineArray[i] = editor.getLine(i);
+	}
+	return lineArray;
+}
+
+type LineRange = {
+	firstLine: number;
+	lastLine: number;
+};
+
+function optionRange(lines: string[]): LineRange {
+	return { firstLine: 0, lastLine: lines.length - 1 };
 }
 
 export default class RandomLinePlugin extends Plugin {
@@ -25,7 +43,8 @@ export default class RandomLinePlugin extends Plugin {
 					return;
 				}
 				editor.focus();
-				const line = getRandomInt(0, editor.lastLine());
+				const orange = optionRange(lines(editor));
+				const line = getRandomInt(orange.firstLine, orange.lastLine);
 				const start: EditorPosition = {
 					line: line,
 					ch: 0,
