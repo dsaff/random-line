@@ -1,4 +1,5 @@
 import { Editor, EditorPosition, MarkdownView, Notice, Plugin } from "obsidian";
+import { optionRange } from "optionrange";
 
 function getRandomInt(min: number, max: number): number {
 	min = Math.ceil(min); // Ensure min is an integer
@@ -14,15 +15,6 @@ function lines(editor: Editor): string[] {
 		lineArray[i] = editor.getLine(i);
 	}
 	return lineArray;
-}
-
-type LineRange = {
-	firstLine: number;
-	lastLine: number;
-};
-
-function optionRange(lines: string[]): LineRange {
-	return { firstLine: 0, lastLine: lines.length - 1 };
 }
 
 export default class RandomLinePlugin extends Plugin {
