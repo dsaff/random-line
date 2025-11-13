@@ -21,4 +21,28 @@ describe("option range", () => {
 		const expected: LineRange = { firstLine: 2, lastLine: 3 };
 		expect(optionRange(["c", "OPTION", "a", "b"])).toEqual(expected);
 	});
+
+	it("should focus on the list where the cursor is", () => {
+		const lines: string[] = ["a", "b", "", "- c", "- d", "", "- e", "- f"];
+		const expected: LineRange = { firstLine: 3, lastLine: 4 };
+		expect(optionRange(lines, 3)).toEqual(expected);
+	});
+
+	it("should focus on the list where the cursor is, another input", () => {
+		const lines: string[] = ["a", "b", "", "- c", "- d", "", "- e", "- f"];
+		const expected: LineRange = { firstLine: 6, lastLine: 7 };
+		expect(optionRange(lines, 7)).toEqual(expected);
+	});
+
+	it("should understand star", () => {
+		const lines: string[] = ["a", "b", "", "- c", "- d", "", "* e", "* f"];
+		const expected: LineRange = { firstLine: 6, lastLine: 7 };
+		expect(optionRange(lines, 7)).toEqual(expected);
+	});
+
+	it("should choose anywhere if cursor isn't in a list", () => {
+		const lines: string[] = ["a", "b", "", "- c", "- d", "", "- e", "- f"];
+		const expected: LineRange = { firstLine: 0, lastLine: 7 };
+		expect(optionRange(lines, 0)).toEqual(expected);
+	});
 });

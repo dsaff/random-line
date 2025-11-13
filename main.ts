@@ -35,7 +35,10 @@ export default class RandomLinePlugin extends Plugin {
 					return;
 				}
 				editor.focus();
-				const orange = optionRange(lines(editor));
+				const cursorLine = editor.getCursor().line;
+				console.log("cursorLine: " + cursorLine);
+				const orange = optionRange(lines(editor), cursorLine);
+				console.log("orange: " + JSON.stringify(orange));
 				const line = getRandomInt(orange.firstLine, orange.lastLine);
 				const start: EditorPosition = {
 					line: line,
